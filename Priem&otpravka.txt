@@ -1,0 +1,40 @@
+Отправка информации с веб-интерфейса на сервер esp32
+// Событие, которое будет вызываться при отправке данных формы
+document.getElementById('myForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // Предотвращает отправку формы по умолчанию
+
+  // Создание объекта XMLHttpRequest
+  var xhttp = new XMLHttpRequest();
+  var url = "http://адрес_вашего_веб-сервера_esp"; // Замените на фактический адрес вашего ESP-сервера
+
+  // Callback-функция, которая будет вызываться при изменении состояния запроса
+  xhttp.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      // Здесь вы можете обрабатывать ответ от сервера ESP
+      console.log(this.responseText);
+    }
+  };
+
+  // Отправка POST-запроса на ESP-сервер
+  xhttp.open("POST", url, true); // true - асинхронный запрос
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("param1=value1&param2=value2"); // Здесь вы можете указать необходимые параметры запроса
+});
+
+
+Приём данных с сервера esp32 на управление градусами в веб-интерфейсе
+
+var xhttp = new XMLHttpRequest();
+var url = "http://адрес_вашего_веб-сервера_esp/angle"; // Замените на фактический адрес вашего ESP-сервера
+
+xhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    var angleData = JSON.parse(this.responseText);
+    // Обработайте данные об угле поворота антенны
+    // Например, отобразите их на странице
+    document.getElementById("angleElement").innerHTML = angleData.angle;
+  }
+};
+
+xhttp.open("GET", url, true);
+xhttp.send();

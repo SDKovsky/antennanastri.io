@@ -1,4 +1,3 @@
-
 document.querySelector('.antenna-container').addEventListener('mousedown', (e) => {
   isDragging = true;
   updateAngle(e);
@@ -28,6 +27,9 @@ function updateAngle(e) {
 
 function applyRotation() {
   const newAngle = parseInt(document.getElementById('angle').textContent);
-  document.getElementById('baseLine').style.transition = "transform 6s ease";
-  document.getElementById('baseLine').setAttribute('transform', `rotate(${newAngle}, 250, 250)`);
+  const baseline = document.getElementById('baseLine');
+
+  baseline.style.transition = "transform 6.0s";  
+  baseline.style.transformOrigin = "50% 50%"; 
+  baseline.style.transform = `rotate(${newAngle}deg)`;
 }

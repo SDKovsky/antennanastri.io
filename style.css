@@ -21,3 +21,6 @@ p {
   margin-left: 200px;
 }
 
+.img {
+   pointer-events: none; 
+}

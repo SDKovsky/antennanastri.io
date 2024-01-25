@@ -27,16 +27,33 @@ function updateAngle(e) {
   }
   document.getElementById('angle').textContent = angle;
   document.getElementById('angleLine').setAttribute('transform', `rotate(${angle}, 250, 250)`);
+  applyRotation(angle);
 }
 
-function applyRotation() {
-  const newAngle = parseInt(document.getElementById('angle').textContent);
+function updateAngleText(angle) {
+  document.getElementById('angleText').textContent = angle;
+}
+
+function fetchAngleData() {
+  fetch('http://192.168.15.37/degree')
+    .then(response => response.text())
+    .then(data => {
+      const angle = parseInt(data);
+      updateAngleText(angle);
+      applyRotation(angle); // передаем угол в функцию applyRotation()
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+fetchAngleData();
+setInterval(fetchAngleData, 10000);
+
+function applyRotation(angle) {
   const baseline = document.getElementById('baseLine');
-
-  baseline.style.transition = "transform 6.0s";  
+  baseline.style.transition = "transform 1.0s";  
   baseline.style.transformOrigin = "50% 50%"; 
-  baseline.style.transform = `rotate(${newAngle}deg)`;
-
-
+  baseline.style.transform = `rotate(${angle}deg)`; // используем переданный угол
 }
-
+updateAntennaAngle();
